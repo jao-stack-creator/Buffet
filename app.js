@@ -111,16 +111,18 @@ for (const cat of CATEGORIAS) {
   sec.id = cat.id;
   sec.setAttribute("aria-labelledby", `h-${cat.id}`);
   sec.innerHTML = `
-    <div class="side">
+    <div class="side rv">
       <h2 id="h-${cat.id}">${esc(cat.nome)}</h2>
+      <span class="line"></span>
       <p>${esc(cat.nota)}<br>${n} ${n === 1 ? "modelo" : "modelos"}</p>
     </div>
     <div class="grid"></div>`;
   const grid = sec.querySelector(".grid");
 
-  for (const it of cat.itens) {
+  cat.itens.forEach((it, k) => {
     const fig = document.createElement("article");
-    fig.className = "item";
+    fig.className = "item rv";
+    fig.style.setProperty("--d", `${(k % 3) * 90}ms`);
     const specs = (it.s || []).map((t) => `<span>${esc(t)}</span>`).join("");
     const cores = (it.c || [])
       .map(([nome, hex]) => `<li><i style="background:${hex}"></i>${esc(nome)}</li>`)
@@ -138,17 +140,27 @@ for (const cat of CATEGORIAS) {
     im.complete ? mark() : im.addEventListener("load", mark);
     ph.addEventListener("click", () => openLb(it, ph));
     grid.appendChild(fig);
-  }
+  });
   main.appendChild(sec);
 }
 
 // Categoria ativa conforme a rolagem
+const ind = document.createElement("span");
+ind.className = "ind";
+tabs.appendChild(ind);
 const links = [...tabs.querySelectorAll("a")];
+function moveInd(a) {
+  ind.style.width = `${a.offsetWidth}px`;
+  ind.style.transform = `translateX(${a.offsetLeft}px)`;
+}
+moveInd(links[0]);
+links[0].classList.add("on");
+addEventListener("resize", () => moveInd(tabs.querySelector(".on") || links[0]));
 const io = new IntersectionObserver((entries) => {
   for (const e of entries) if (e.isIntersecting) {
     links.forEach((l) => l.classList.toggle("on", l.dataset.id === e.target.id));
     const on = tabs.querySelector(".on");
-    if (on) tabs.scrollTo({ left: on.offsetLeft - 24, behavior: "smooth" });
+    if (on) { moveInd(on); tabs.scrollTo({ left: on.offsetLeft - 24, behavior: "smooth" }); }
   }
 }, { rootMargin: "-40% 0px -55% 0px" });
 document.querySelectorAll("main section").forEach((s) => io.observe(s));
@@ -173,3 +185,36 @@ function closeLb() {
 }
 lb.addEventListener("click", (e) => { if (e.target.tagName !== "IMG") closeLb(); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !lb.hidden) closeLb(); });
+
+// ===== Animações =====
+// Entrada dos itens ao rolar (uma vez só)
+const rv = new IntersectionObserver((es) => es.forEach((e) => {
+  if (e.isIntersecting) { e.target.classList.add("in"); rv.unobserve(e.target); }
+}), { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+document.querySelectorAll(".rv").forEach((el) => rv.observe(el));
+
+// Barra de progresso e movimento do favo na rolagem
+const bar = document.getElementById("progress");
+let tick = false;
+function onScroll() {
+  if (tick) return;
+  tick = true;
+  requestAnimationFrame(() => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+    if (scrollY < innerHeight) comb.style.setProperty("--sy", (scrollY * -0.1).toFixed(1));
+    tick = false;
+  });
+}
+addEventListener("scroll", onScroll, { passive: true });
+
+// Favo acompanha o mouse (só em telas com mouse)
+const hero = document.querySelector(".hero");
+if (matchMedia("(hover:hover)").matches && !matchMedia("(prefers-reduced-motion:reduce)").matches) {
+  hero.addEventListener("mousemove", (e) => {
+    const r = hero.getBoundingClientRect();
+    comb.style.setProperty("--px", ((e.clientX - r.left) / r.width - 0.5).toFixed(3));
+    comb.style.setProperty("--py", ((e.clientY - r.top) / r.height - 0.5).toFixed(3));
+  });
+  hero.addEventListener("mouseleave", () => { comb.style.setProperty("--px", 0); comb.style.setProperty("--py", 0); });
+}
