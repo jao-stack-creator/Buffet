@@ -2,11 +2,15 @@
 // n = nome · p = preço · i = nome do arquivo em img/ · s = medidas · c = cores [nome, hex]
 const CATEGORIAS = [
   { id: "toalhas", nome: "Toalhas", nota: "Valor por toalha", itens: [
-    { n: "Toalha xadrez", p: "R$ 8,00", i: "toalha-xadrez", s: ["4 lugares", "1,40 × 1,40 m"] },
-    { n: "Toalha de poá", p: "R$ 8,00", i: "toalha-poa", s: ["4 lugares", "1,40 × 1,40 m"] },
-    { n: "Toalha lisa", p: "R$ 8,00", i: "toalha-lisa", s: ["4 lugares", "1,40 × 1,40 m"] },
+    { n: "Toalha xadrez", p: "R$ 8,00", i: "toalha-xadrez", s: ["4 lugares", "1,40 × 1,40 m"],
+      c: [["Preto e branco", "#141414"], ["Vermelho e branco", "#d6232b"]] },
+    { n: "Toalha de poá", p: "R$ 8,00", i: "toalha-poa", s: ["4 lugares", "1,40 × 1,40 m"],
+      c: [["Preto com bolas brancas", "#141414"], ["Branco com bolas pretas", "#f2f2f2"]] },
+    { n: "Toalha lisa", p: "R$ 8,00", i: "toalha-lisa", s: ["4 lugares", "1,40 × 1,40 m"],
+      c: [["Rosa", "#e8b9b9"], ["Bege", "#f0d8aa"], ["Branca", "#fbfbf8"], ["Verde oliva", "#59692a"], ["Preta", "#262624"]] },
     { n: "Toalha de chita", p: "R$ 8,00", i: "toalha-chita", s: ["4 lugares", "1,40 × 1,40 m"] },
-    { n: "Toalha de jacquard", p: "R$ 8,00", i: "toalha-jacquard-4", s: ["4 lugares", "1,40 × 1,40 m"] },
+    { n: "Toalha de jacquard", p: "R$ 8,00", i: "toalha-jacquard-4", s: ["4 lugares", "1,40 × 1,40 m"],
+      c: [["Pink", "#c4235b"], ["Vermelho", "#c8244b"], ["Creme", "#ecd9a8"]] },
     { n: "Toalha de jacquard", p: "R$ 15,00", i: "toalha-jacquard-azul", s: ["8 lugares", "3,0 × 3,0 m"],
       c: [["Azul marinho", "#1f2a5a"], ["Verde oliva", "#6b7040"], ["Vermelho", "#b3262e"]] },
     { n: "Toalha de jacquard", p: "R$ 15,00", i: "toalha-jacquard-rosa", s: ["8 lugares", "3,0 × 3,0 m"],
@@ -19,10 +23,14 @@ const CATEGORIAS = [
       c: [["Dourada", "#c8a45a"], ["Dourado escuro", "#8a6d2b"]] },
   ]},
   { id: "guardanapos", nome: "Guardanapos", nota: "Valor por guardanapo", itens: [
-    { n: "Guardanapo de linho", p: "R$ 2,50", i: "guardanapo-linho", s: ["40 × 40 cm"] },
-    { n: "Guardanapo de jacquard", p: "R$ 2,50", i: "guardanapo-jacquard", s: ["40 × 40 cm"] },
-    { n: "Guardanapo de oxford", p: "R$ 2,50", i: "guardanapo-oxford", s: ["40 × 40 cm"] },
-    { n: "Guardanapo de jacquard liso", p: "R$ 2,50", i: "guardanapo-jacquard-liso", s: ["40 × 40 cm"] },
+    { n: "Guardanapo de linho", p: "R$ 2,50", i: "guardanapo-linho", s: ["40 × 40 cm"],
+      c: [["Azul marinho", "#1a1c3a"], ["Vinho", "#7a1a2a"], ["Pink", "#d81b6a"], ["Lilás", "#c9a8e6"], ["Azul bebê", "#a6d6e0"], ["Creme", "#f1e8cf"]] },
+    { n: "Guardanapo de jacquard", p: "R$ 2,50", i: "guardanapo-jacquard", s: ["40 × 40 cm"],
+      c: [["Lilás claro", "#e0d6e8"], ["Marfim", "#f1e7c8"], ["Bege", "#ecdbb0"], ["Rosa antigo", "#d9b2c0"]] },
+    { n: "Guardanapo de oxford", p: "R$ 2,50", i: "guardanapo-oxford", s: ["40 × 40 cm"],
+      c: [["Azul royal", "#1d3fa8"], ["Rosa claro", "#f1c2c8"], ["Vermelho", "#c4182f"], ["Branco", "#fbfbf8"]] },
+    { n: "Guardanapo de jacquard liso", p: "R$ 2,50", i: "guardanapo-jacquard-liso", s: ["40 × 40 cm"],
+      c: [["Azul petróleo", "#1f4b66"], ["Branco", "#f6f1ec"], ["Verde esmeralda", "#1f9a7f"]] },
   ]},
   { id: "sousplats", nome: "Sousplats", nota: "Valor por sousplat", itens: [
     { n: "Sousplat dourado", p: "R$ 3,50", i: "sousplat-dourado" },
@@ -140,7 +148,7 @@ for (const cat of CATEGORIAS) {
     fig.style.setProperty("--d", `${(k % 3) * 90}ms`);
     const specs = (it.s || []).map((t) => `<span>${esc(t)}</span>`).join("");
     const cores = (it.c || [])
-      .map(([nome, hex]) => `<li><i style="background:${hex}"></i>${esc(nome)}</li>`)
+      .map(([nome, hex], j) => `<li style="--j:${j}"><i style="background:${hex}"></i>${esc(nome)}</li>`)
       .join("");
     fig.innerHTML = `
       <button class="ph" aria-label="Ampliar foto: ${esc(it.n)}">

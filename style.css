@@ -99,9 +99,7 @@ section:first-child{border-top:0}
 .item .dots{transform:translateY(-4px) scaleX(0);transform-origin:left;transition:transform .8s cubic-bezier(.3,.7,.2,1) calc(var(--d,0ms) + .35s)}
 .item.in .dots{transform:translateY(-4px) scaleX(1)}
 .cores i{transform:scale(0);transition:transform .45s cubic-bezier(.3,1.7,.5,1)}
-.item.in .cores li:nth-child(1) i{transform:none;transition-delay:.55s}
-.item.in .cores li:nth-child(2) i{transform:none;transition-delay:.65s}
-.item.in .cores li:nth-child(3) i{transform:none;transition-delay:.75s}
+.item.in .cores i{transform:none;transition-delay:calc(.55s + var(--j,0)*.09s)}
 .side .line{display:block;width:44px;height:2px;margin-top:14px;background:var(--brass);transform:scaleX(0);transform-origin:left;transition:transform .7s cubic-bezier(.2,.8,.2,1) .25s}
 .side.in .line{transform:scaleX(1)}
 
