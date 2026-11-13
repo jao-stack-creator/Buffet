@@ -22,7 +22,8 @@ a,button{font:inherit;color:inherit}
 .hero{background:var(--midnight);color:#fff;overflow:hidden}
 .hero-in{max-width:1180px;margin:0 auto;padding:48px 20px 56px;display:grid;gap:36px;align-items:center}
 @media(min-width:900px){.hero-in{grid-template-columns:1fr auto;padding:72px 24px 80px;gap:48px}}
-.logo{width:84px;height:84px;border-radius:50%;margin-bottom:28px;box-shadow:0 0 0 2px var(--brass)}
+.logo{width:136px;height:136px;border-radius:50%;margin-bottom:30px;box-shadow:0 0 0 3px var(--brass),0 0 0 11px rgba(201,162,74,.16),0 18px 40px rgba(0,0,0,.45)}
+@media(max-width:560px){.logo{width:112px;height:112px;margin-bottom:24px}}
 .hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(34px,6vw,58px);line-height:1.08;max-width:15ch;color:#fff}
 .hero p{margin-top:20px;max-width:46ch;color:#c3cadd;font-size:17px}
 
@@ -108,9 +109,31 @@ section:first-child{border-top:0}
 .ph::after{content:"+";position:absolute;right:10px;bottom:10px;width:34px;height:34px;border-radius:50%;background:var(--midnight);color:var(--brass);font-size:22px;line-height:33px;text-align:center;opacity:0;transform:scale(.6);transition:opacity .25s,transform .3s cubic-bezier(.3,1.6,.5,1)}
 .ph:hover::after,.ph:focus-visible::after{opacity:1;transform:none}
 
+/* ===== Voltar ao topo ===== */
+.totop{position:fixed;right:18px;bottom:18px;z-index:40;width:52px;height:52px;border:0;border-radius:50%;cursor:pointer;display:grid;place-items:center;
+  background:var(--midnight);color:var(--brass);box-shadow:0 0 0 2px var(--brass),0 10px 24px rgba(11,18,38,.35);
+  opacity:0;transform:translateY(16px) scale(.8);pointer-events:none;transition:opacity .3s,transform .35s cubic-bezier(.3,1.5,.5,1),background .2s,color .2s}
+.totop.show{opacity:1;transform:none;pointer-events:auto}
+.totop[hidden]{display:none}
+.totop:hover{background:var(--brass);color:var(--midnight)}
+.totop:hover svg{animation:nudge .5s ease}
+.totop:active{transform:scale(.92)}
+@keyframes nudge{40%{transform:translateY(-4px)}}
+
+/* ===== Replay ao clicar numa categoria do menu ===== */
+.replay .item{animation:cascade .65s cubic-bezier(.2,.8,.2,1) var(--r,0ms) both}
+.replay .item .dots{animation:draw .8s cubic-bezier(.3,.7,.2,1) calc(var(--r,0ms) + .3s) both}
+.replay .side h2{animation:titlein .6s cubic-bezier(.2,.8,.2,1) both}
+.replay .side .line{animation:linein .7s cubic-bezier(.2,.8,.2,1) .15s both}
+@keyframes cascade{from{opacity:0;transform:translateY(26px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes draw{from{transform:translateY(-4px) scaleX(0)}to{transform:translateY(-4px) scaleX(1)}}
+@keyframes titlein{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:none}}
+@keyframes linein{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.tabs a:active{transform:scale(.94)}
+
 /* ===== Rodapé ===== */
 footer{background:var(--midnight);color:#c3cadd;text-align:center;padding:52px 20px 60px;border-top:3px solid var(--brass)}
-footer img{width:72px;height:72px;border-radius:50%;margin:0 auto 14px;box-shadow:0 0 0 2px var(--brass)}
+footer img{width:96px;height:96px;border-radius:50%;margin:0 auto 14px;box-shadow:0 0 0 2px var(--brass)}
 .fname{font-family:var(--serif);font-size:24px;color:#fff}
 .phone{margin-top:12px;color:var(--brass);font-size:20px;font-weight:600;letter-spacing:.02em}
 .note{margin-top:18px;font-size:13.5px;color:#8f99b5}
@@ -125,4 +148,4 @@ footer img{width:72px;height:72px;border-radius:50%;margin:0 auto 14px;box-shado
 @keyframes fade{from{opacity:0}}
 @keyframes pop{from{opacity:0;transform:scale(.9)}}
 
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}.rv,.hero-text>*,.hx{opacity:1!important;transform:none!important}.item .dots{transform:translateY(-4px)!important}.cores i,.side .line{transform:none!important}.comb{transform:none!important}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}.rv,.hero-text>*,.hx{opacity:1!important;transform:none!important}.item .dots{transform:translateY(-4px)!important}.cores i,.side .line{transform:none!important}.comb{transform:none!important}.totop{transition:none}}

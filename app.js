@@ -218,3 +218,37 @@ if (matchMedia("(hover:hover)").matches && !matchMedia("(prefers-reduced-motion:
   });
   hero.addEventListener("mouseleave", () => { comb.style.setProperty("--px", 0); comb.style.setProperty("--py", 0); });
 }
+
+// ===== Voltar ao topo =====
+const reduce = matchMedia("(prefers-reduced-motion:reduce)").matches;
+const toTop = document.getElementById("toTop");
+toTop.hidden = false;
+addEventListener("scroll", () => toTop.classList.toggle("show", scrollY > 700), { passive: true });
+toTop.addEventListener("click", () => scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" }));
+
+// ===== Clique numa categoria: rola até ela e repete a animação de entrada =====
+function whenScrollStops(cb) {
+  let last = -1, still = 0, t0 = performance.now();
+  (function check() {
+    still = scrollY === last ? still + 1 : 0;
+    last = scrollY;
+    if (still >= 6 || performance.now() - t0 > 2000) cb();
+    else requestAnimationFrame(check);
+  })();
+}
+tabs.addEventListener("click", (e) => {
+  const a = e.target.closest("a");
+  if (!a) return;
+  e.preventDefault();
+  const sec = document.getElementById(a.dataset.id);
+  history.replaceState(null, "", `#${a.dataset.id}`);
+  sec.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+  if (reduce) return;
+  sec.classList.remove("replay");
+  whenScrollStops(() => {
+    sec.querySelectorAll(".item").forEach((el, k) => el.style.setProperty("--r", `${Math.min(k, 8) * 70}ms`));
+    void sec.offsetWidth; // reinicia a animação se já estava rodando
+    sec.classList.add("replay");
+    setTimeout(() => sec.classList.remove("replay"), 2200);
+  });
+});
