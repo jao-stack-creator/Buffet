@@ -1,6 +1,3 @@
-// ===== Configuração =====
-const WHATSAPP = "5561995553380"; // (61) 9 9555-3380
-
 // ===== Dados do catálogo (preços por unidade, conforme os PDFs) =====
 const CATEGORIAS = [
   { id: "toalhas", nome: "Toalhas", itens: [
@@ -68,8 +65,6 @@ const CATEGORIAS = [
 ];
 
 // ===== Helpers =====
-const wppLink = (msg) =>
-  `https://wa.me/${WHATSAPP}` + (msg ? `?text=${encodeURIComponent(msg)}` : "");
 const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
 // ===== Render =====
@@ -85,36 +80,33 @@ for (const cat of CATEGORIAS) {
 
   const sec = document.createElement("section");
   sec.id = cat.id;
-  sec.innerHTML = `<h2>${esc(cat.nome)}</h2><div class="grid"></div>`;
+  sec.innerHTML = `<div class="sh"><h2>${esc(cat.nome)}</h2><span>${cat.itens.length} ${cat.itens.length === 1 ? "item" : "itens"}</span></div><div class="grid"></div>`;
   const grid = sec.querySelector(".grid");
 
-  for (const it of cat.itens) {
-    const msg = `Olá! Vi o catálogo e tenho interesse em: ${it.n}${it.d ? " (" + it.d + ")" : ""}. Gostaria de um orçamento.`;
+  cat.itens.forEach((it, k) => {
     const card = document.createElement("article");
-    card.className = "card";
+    card.className = "card reveal";
+    card.style.setProperty("--d", `${(k % 4) * 70}ms`);
     card.innerHTML = `
       <button class="ph" aria-label="Ampliar foto: ${esc(it.n)}">
         <img src="img/${it.i}.jpg" alt="${esc(it.n)}" loading="lazy">
+        <span class="tag">${esc(it.p)}</span>
+        <span class="zoom" aria-hidden="true">+</span>
       </button>
       <div class="info">
         <h3>${esc(it.n)}</h3>
         ${it.d ? `<p class="desc">${esc(it.d)}</p>` : ""}
-        <p class="price">${esc(it.p)}${/cada|unidade/.test(it.p) ? "" : '<span> / unidade</span>'}</p>
-        <a class="ask" href="${wppLink(msg)}" target="_blank" rel="noopener">Pedir orçamento</a>
+        <p class="unit">${/cada|unidade/.test(it.p) ? "" : "por unidade"}</p>
       </div>`;
     const ph = card.querySelector(".ph"), im = ph.querySelector("img");
     ph.style.setProperty("--bg", `url(img/${it.i}.jpg)`);
-    const mark = () => im.naturalHeight > im.naturalWidth && ph.classList.add("tall");
+    const mark = () => im.naturalHeight > im.naturalWidth * 1.15 && ph.classList.add("tall");
     im.complete ? mark() : im.addEventListener("load", mark);
     ph.addEventListener("click", () => openLb(it));
     grid.appendChild(card);
-  }
+  });
   main.appendChild(sec);
 }
-
-// WhatsApp genérico
-const generic = wppLink("Olá! Vi o catálogo da Ineida Palhano Decorações e gostaria de um orçamento.");
-for (const id of ["heroWpp", "footWpp", "floatWpp"]) document.getElementById(id).href = generic;
 
 // Aba ativa conforme a rolagem
 const links = [...tabs.querySelectorAll("a")];
@@ -139,3 +131,9 @@ function openLb(it) {
 function closeLb() { lb.hidden = true; document.body.style.overflow = ""; }
 lb.addEventListener("click", (e) => { if (e.target.tagName !== "IMG") closeLb(); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLb(); });
+
+// Animação de entrada ao rolar
+const rv = new IntersectionObserver((es) => es.forEach((e) => {
+  if (e.isIntersecting) { e.target.classList.add("in"); rv.unobserve(e.target); }
+}), { rootMargin: "0px 0px -8% 0px" });
+document.querySelectorAll(".reveal").forEach((el) => rv.observe(el));
