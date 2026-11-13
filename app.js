@@ -31,6 +31,24 @@ const CATEGORIAS = [
     { n: "Sousplat rústico", p: "R$ 3,50", i: "sousplat-rustico" },
     { n: "Sousplat vintage branco", p: "R$ 3,50", i: "sousplat-vintage-branco" },
     { n: "Sousplat vintage marfim", p: "R$ 3,50", i: "sousplat-vintage-marfim" },
+    { n: "Sousplat branco ornamentado", p: "R$ 3,50", i: "sousplat-branco-ornamentado", f: 1 },
+    { n: "Sousplat verde canelado", p: "R$ 3,50", i: "sousplat-verde-canelado", f: 1 },
+    { n: "Sousplat de vidro rosé", p: "R$ 3,50", i: "sousplat-vidro-rose", f: 1 },
+    { n: "Sousplat azul ornamentado", p: "R$ 3,50", i: "sousplat-azul-ornamentado", f: 1 },
+    { n: "Sousplat de palha", p: "R$ 3,50", i: "sousplat-palha", f: 1 },
+    { n: "Sousplat azul floral", p: "R$ 3,50", i: "sousplat-azul-floral", f: 1 },
+    { n: "Sousplat cinza geométrico", p: "R$ 3,50", i: "sousplat-cinza-geometrico", f: 1 },
+    { n: "Sousplat branco ondulado", p: "R$ 3,50", i: "sousplat-branco-ondulado", f: 1 },
+    { n: "Sousplat branco relevo", p: "R$ 3,50", i: "sousplat-branco-relevo", f: 1 },
+    { n: "Sousplat marfim ondulado", p: "R$ 3,50", i: "sousplat-marfim-ondulado", f: 1 },
+    { n: "Sousplat bronze", p: "R$ 3,50", i: "sousplat-bronze", f: 1 },
+    { n: "Sousplat prata rendado", p: "R$ 3,50", i: "sousplat-prata-rendado", f: 1 },
+    { n: "Sousplat vermelho canelado", p: "R$ 3,50", i: "sousplat-vermelho-canelado", f: 1 },
+    { n: "Sousplat prata ornamentado", p: "R$ 3,50", i: "sousplat-prata-ornamentado", f: 1 },
+    { n: "Sousplat champanhe", p: "R$ 3,50", i: "sousplat-champanhe", f: 1 },
+    { n: "Sousplat dourado rendado", p: "R$ 3,50", i: "sousplat-dourado-rendado", f: 1 },
+    { n: "Sousplat prata plissado", p: "R$ 3,50", i: "sousplat-prata-plissado", f: 1 },
+    { n: "Sousplat dourado envelhecido", p: "R$ 3,50", i: "sousplat-dourado-envelhecido", f: 1 },
   ]},
   { id: "tacas", nome: "Taças", nota: "Valor por unidade", itens: [
     { n: "Taça tradicional", p: "R$ 0,50", i: "taca-tradicional" },
@@ -136,7 +154,7 @@ for (const cat of CATEGORIAS) {
       ${cores ? `<ul class="cores" aria-label="Cores disponíveis">${cores}</ul>` : ""}`;
     const ph = fig.querySelector(".ph"), im = ph.querySelector("img");
     ph.style.setProperty("--bg", `url(img/${it.i}.jpg)`);
-    const mark = () => im.naturalHeight > im.naturalWidth * 1.15 && ph.classList.add("tall");
+    const mark = () => (it.f || im.naturalHeight > im.naturalWidth * 1.15) && ph.classList.add("tall");
     im.complete ? mark() : im.addEventListener("load", mark);
     ph.addEventListener("click", () => openLb(it, ph));
     grid.appendChild(fig);
