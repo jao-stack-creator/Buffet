@@ -104,6 +104,57 @@ const FAVO = [
   [0.5, 0.866, "taca-decorada-verde"],
 ];
 
+// Cores dos itens que não têm lista própria (tiradas das fotos)
+const CORES_AUTO = {
+  "toalha-chita": [["Azul", "#2a4aa0"], ["Amarelo", "#f0d23a"], ["Verde", "#3f8f3a"], ["Coral", "#ef7b6a"]],
+  "sousplat-dourado": [["Dourado", "#c9a24a"]],
+  "sousplat-prata": [["Prata", "#bcc2c9"]],
+  "sousplat-familia": [["Preto", "#1b1b1b"], ["Cinza claro", "#bdb8ad"]],
+  "sousplat-rustico": [["Bronze", "#7a6a45"], ["Palha", "#c9772a"]],
+  "sousplat-vintage-branco": [["Branco", "#e9e9e4"]],
+  "sousplat-vintage-marfim": [["Marfim", "#e9dfb8"]],
+  "sousplat-branco-ornamentado": [["Branco", "#e6e8e4"]],
+  "sousplat-verde-canelado": [["Verde", "#4a5d4a"]],
+  "sousplat-vidro-rose": [["Rosé transparente", "#e8c0c0"]],
+  "sousplat-azul-ornamentado": [["Azul escuro", "#2d3c5c"]],
+  "sousplat-azul-floral": [["Azul", "#33445e"]],
+  "sousplat-cinza-geometrico": [["Cinza", "#8a8284"]],
+  "sousplat-branco-ondulado": [["Branco", "#eceff2"]],
+  "sousplat-branco-relevo": [["Branco", "#f0f1f5"]],
+  "sousplat-marfim-ondulado": [["Marfim", "#ece4cf"]],
+  "sousplat-prata-rendado": [["Prata", "#bcc2c9"]],
+  "sousplat-vermelho-canelado": [["Vermelho", "#a3122f"]],
+  "sousplat-prata-ornamentado": [["Prata", "#a9adb4"]],
+  "sousplat-champanhe": [["Champanhe", "#cbb68f"]],
+  "sousplat-dourado-rendado": [["Dourado", "#b89a6a"]],
+  "sousplat-dourado-envelhecido": [["Dourado", "#d2bc88"]],
+  "taca-tradicional": [["Transparente", "#e4ecf0"]],
+  "taca-chopp": [["Transparente", "#e4ecf0"]],
+  "taca-vinho": [["Transparente", "#e4ecf0"]],
+  "taca-decorada-colorida": [["Azul", "#2f5f86"], ["Roxo", "#7a4a6a"], ["Âmbar", "#b9962a"]],
+  "taca-decorada": [["Transparente", "#e4ecf0"]],
+  "taca-martini": [["Transparente", "#e4ecf0"]],
+  "taca-decorada-verde": [["Verde", "#6f9a5a"]],
+  "copinho-shot": [["Transparente", "#e4ecf0"]],
+  "garfo-refeicao": [["Inox", "#c5c9cf"]],
+  "faca-refeicao": [["Inox", "#c5c9cf"]],
+  "garfo-sobremesa": [["Inox", "#c5c9cf"]],
+  "colher-sobremesa": [["Inox", "#c5c9cf"]],
+  "pratos": [["Branco", "#f1f1ee"]],
+  "xicara-cha": [["Branco", "#f1f1ee"]],
+  "xicara-cafe": [["Branco", "#f1f1ee"]],
+  "ramequim-redondo": [["Branco", "#f1f1ee"]],
+  "ramequim-quadrado": [["Branco", "#f1f1ee"]],
+  "rechaud-quadrado": [["Inox", "#c5c9cf"]],
+  "rechaud-redondo": [["Inox", "#c5c9cf"]],
+  "peca-madeira": [["Madeira", "#8a5a2b"]],
+  "peca-vidro": [["Transparente", "#e4ecf0"]],
+  "peca-rosegold": [["Rosé gold", "#c98f7e"]],
+  "peca-dourada": [["Dourado", "#c9a24a"]],
+  "peca-prata-1": [["Prata", "#bcc2c9"]],
+  "peca-prata-2": [["Prata", "#bcc2c9"]],
+};
+
 const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
 // ===== Favo do topo =====
@@ -147,7 +198,7 @@ for (const cat of CATEGORIAS) {
     fig.className = "item rv";
     fig.style.setProperty("--d", `${(k % 3) * 90}ms`);
     const specs = (it.s || []).map((t) => `<span>${esc(t)}</span>`).join("");
-    const cores = (it.c || [])
+    const cores = (it.c || CORES_AUTO[it.i] || [])
       .map(([nome, hex], j) => `<li style="--j:${j}"><i style="background:${hex}"></i>${esc(nome)}</li>`)
       .join("");
     fig.innerHTML = `
