@@ -3,41 +3,45 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ineida Palhano Decorações | Catálogo de Aluguel de Materiais para Festas</title>
-<meta name="description" content="Catálogo de aluguel de toalhas, guardanapos, sousplats, taças, talheres, louças, rechauds e peças decorativas para buffets e festas. Ineida Palhano Decorações.">
-<meta property="og:title" content="Ineida Palhano Decorações | Catálogo">
-<meta property="og:description" content="Aluguel de material em geral para buffets e festas. Veja o catálogo completo com fotos e valores.">
+<title>Ineida Palhano Decorações | Catálogo de aluguel para festas e buffets</title>
+<meta name="description" content="Toalhas, guardanapos, sousplats, taças, talheres, louças, rechauds e peças decorativas para alugar. Veja fotos e valores no catálogo da Ineida Palhano Decorações.">
+<meta name="theme-color" content="#0b1226">
+<meta property="og:title" content="Ineida Palhano Decorações | Catálogo de aluguel">
+<meta property="og:description" content="Veja fotos e valores de toalhas, louças, taças, sousplats e peças decorativas para a sua festa.">
 <meta property="og:image" content="img/logo.jpg">
 <link rel="icon" href="img/logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Marcellus&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header class="hero">
-  <img class="logo" src="img/logo.jpg" alt="Ineida Palhano Decorações" width="160" height="160">
-  <span class="eyebrow">Ineida Palhano Decorações</span>
-  <h1>Catálogo de Aluguel</h1>
-  <div class="rule"><i></i><b></b><i></i></div>
-  <p>Aluguel de material em geral para buffets, festas e eventos</p>
+  <div class="hero-in">
+    <div class="hero-text">
+      <img class="logo" src="img/logo.jpg" alt="Ineida Palhano Decorações" width="84" height="84">
+      <h1>Tudo para montar a mesa da sua festa</h1>
+      <p>Toalhas, guardanapos, sousplats, taças, talheres, louças, rechauds e peças decorativas para alugar. Veja as fotos e os valores de cada item.</p>
+    </div>
+    <div class="comb" id="comb" aria-hidden="true"></div>
+  </div>
 </header>
 
-<nav class="tabs" id="tabs" aria-label="Categorias"></nav>
+<nav class="tabs" id="tabs" aria-label="Categorias do catálogo"></nav>
 
 <main id="catalogo"></main>
 
 <footer>
   <img src="img/logo.jpg" alt="" width="72" height="72">
   <p class="fname">Ineida Palhano Decorações</p>
-  <p>Aluguel de Material em Geral</p>
+  <p>Aluguel de material em geral</p>
   <p class="phone">(61) 9 9555-3380</p>
   <p class="note">Valores por unidade, sujeitos a alteração.</p>
 </footer>
 
-<div class="lightbox" id="lightbox" hidden>
-  <button class="close" aria-label="Fechar">&times;</button>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Foto ampliada" hidden>
+  <button class="close" id="lbClose" aria-label="Fechar foto">&times;</button>
   <figure><img id="lbImg" alt=""><figcaption id="lbCap"></figcaption></figure>
 </div>
 
